@@ -1,100 +1,77 @@
 name: Notify Discord on GitHub Events
-
-on:
-  push:
-  issues:
-  pull_request:
+on: [push, issues, pull_request]
 
 jobs:
   notify:
     runs-on: ubuntu-latest
-
     steps:
       - name: Set notification variables
         id: set_vars
         shell: bash
         run: |
-          set -e
-
           if [ "${{ github.event_name }}" = "push" ]; then
-            TITLE="🚀 Nouveau push sur le dépôt !"
-            COLOR=5763719
-            DESC="**Auteur** : ${{ github.actor }}
-**Branche** : \`${{ github.ref_name }}\`
-**Message** : ${{ github.event.head_commit.message }}
-[🔗 Voir le commit](${{ github.event.head_commit.url }})"
-          fi
+            echo "title=Nouveau push sur le dépôt !" >> $GITHUB_OUTPUT
+            echo "color=5763719" >> $GITHUB_OUTPUT
+            echo "description<<EOF" >> $GITHUB_OUTPUT
+            echo "**Auteur** : ${{ github.actor }}"
+            echo "**Branche** : \`${{ github.ref_name }}\`"
+            echo "**Message** : ${{ github.event.head_commit.message }}"
+            echo "**Lien** : [Voir le commit](${{ github.event.head_commit.url }})"
+            echo "EOF" >> $GITHUB_OUTPUT
 
-          if [ "${{ github.event_name }}" = "issues" ]; then
+          elif [ "${{ github.event_name }}" = "issues" ]; then
             if [ "${{ github.event.action }}" = "opened" ]; then
-              TITLE="🐛 Nouvelle issue"
-              COLOR=15158332
+              echo "title=Nouvelle issue" >> $GITHUB_OUTPUT
+              echo "color=15158332" >> $GITHUB_OUTPUT
             else
-              TITLE="✅ Issue fermée"
-              COLOR=3066992
+              echo "title=Issue fermée" >> $GITHUB_OUTPUT
+              echo "color=3066992" >> $GITHUB_OUTPUT
             fi
+            echo "description<<EOF" >> $GITHUB_OUTPUT
+            echo "**Titre** : ${{ github.event.issue.title }}"
+            echo "**Auteur** : ${{ github.event.issue.user.login }}"
+            echo "**Lien** : [Voir l'issue](${{ github.event.issue.html_url }})"
+            echo "EOF" >> $GITHUB_OUTPUT
 
-            DESC="**Titre** : ${{ github.event.issue.title }}
-**Auteur** : ${{ github.event.issue.user.login }}
-[🔗 Voir l'issue](${{ github.event.issue.html_url }})"
-          fi
-
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
+          elif [ "${{ github.event_name }}" = "pull_request" ]; then
             if [ "${{ github.event.action }}" = "opened" ]; then
-              TITLE="🔀 Nouvelle Pull Request"
-              COLOR=15844367
+              echo "title=Nouvelle Pull Request" >> $GITHUB_OUTPUT
+              echo "color=15844367" >> $GITHUB_OUTPUT
             elif [ "${{ github.event.pull_request.merged }}" = "true" ]; then
-              TITLE="🎉 PR mergée"
-              COLOR=65280
+              echo "title=PR mergée" >> $GITHUB_OUTPUT
+              echo "color=65280" >> $GITHUB_OUTPUT
             else
-              TITLE="❌ PR fermée"
-              COLOR=15105570
+              echo "title=PR fermée" >> $GITHUB_OUTPUT
+              echo "color=15105570" >> $GITHUB_OUTPUT
             fi
-
-            DESC="**Titre** : ${{ github.event.pull_request.title }}
-**Auteur** : ${{ github.event.pull_request.user.login }}
-[🔗 Voir la PR](${{ github.event.pull_request.html_url }})"
+            echo "description<<EOF" >> $GITHUB_OUTPUT
+            echo "**Titre** : ${{ github.event.pull_request.title }}"
+            echo "**Auteur** : ${{ github.event.pull_request.user.login }}"
+            echo "**Lien** : [Voir la PR](${{ github.event.pull_request.html_url }})"
+            echo "EOF" >> $GITHUB_OUTPUT
           fi
 
-          echo "title=$TITLE" >> "$GITHUB_OUTPUT"
-          echo "color=$COLOR" >> "$GITHUB_OUTPUT"
-
-          # IMPORTANT: sortie multi-ligne propre
-          echo "description<<EOF" >> "$GITHUB_OUTPUT"
-          echo "$DESC" >> "$GITHUB_OUTPUT"
-          echo "EOF" >> "$GITHUB_OUTPUT"
-
-      - name: Build Discord JSON payload
-        id: discord_json
+      - name: Send Discord notification (embed)
         shell: bash
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          set -e
-
-          jq -n \
+          payload=$(jq -n \
             --arg title "${{ steps.set_vars.outputs.title }}" \
-            --arg desc "${{ steps.set_vars.outputs.description }}" \
-            --arg repo "${{ github.repository }}" \
-            --arg actor "${{ github.actor }}" \
-            --arg event "${{ github.event_name }}" \
-            --argjson color ${{ steps.set_vars.outputs.color }} \
+            --arg description "${{ steps.set_vars.outputs.description }}" \
+            --arg repo "${{ github.event.repository.name }}" \
+            --argjson color "${{ steps.set_vars.outputs.color }}" \
             '{
-              username: "GitHub Actions",
-              embeds: [
+              "embeds": [
                 {
-                  title: $title,
-                  description: $desc,
-                  color: $color,
-                  footer: { text: ("Repo: " + $repo + " • Event: " + $event + " • Actor: " + $actor) }
+                  "title": $title,
+                  "description": $description,
+                  "color": $color,
+                  "footer": { "text": ("Dépôt : " + $repo) }
                 }
               ]
-            }' > payload.json
+            }')
 
-          echo "Payload generated:"
-          cat payload.json
-
-      - name: Send Discord notification
-        uses: Ilshidur/action-discord@master
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        with:
-          args: "$(cat payload.json)"
+          curl -H "Content-Type: application/json" \
+               -d "$payload" \
+               "$DISCORD_WEBHOOK_URL"
