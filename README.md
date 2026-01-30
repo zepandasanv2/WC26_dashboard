@@ -7,3 +7,6 @@ Ce projet consiste à créer un dashboard interactif pour suivre en temps réel 
 ```bash
 pip install -r requirements.txt
 ```
+
+# Notifications discord 
+to do 
