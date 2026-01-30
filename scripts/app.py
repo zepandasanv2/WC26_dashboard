@@ -10,7 +10,7 @@ joueurs_path = project_root / "data" / "joueurs.csv"
 matchs = pd.read_csv(matchs_path)
 joueurs = pd.read_csv(joueurs_path)
 
-# Table print
+# Afficher les données sous format table
 print("=== Matchs ===")
 print(matchs.head())
 print("\n=== Joueurs ===")
