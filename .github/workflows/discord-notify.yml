@@ -80,6 +80,7 @@ jobs:
             --arg title "$TITLE" \
             --arg desc "$DESC" \
             --arg repo "$REPO" \
+            --arg actor "${{ github.actor }}" \
             --argjson color "$COLOR" \
             '{
               embeds: [
@@ -87,10 +88,17 @@ jobs:
                   title: $title,
                   description: $desc,
                   color: $color,
-                  footer: { text: ("Dépôt : " + $repo) }
+                  author: {
+                  name: $actor,
+                  icon_url: ("https://github.com/" + $actor + ".png"),
+                  url: ("https://github.com/" + $actor)
+                },
+                footer: {
+                  text: ("Dépôt : " + $repo)
                 }
-              ]
-            }')
+              }
+            ]
+          }')
 
           curl -H "Content-Type: application/json" \
                -d "$payload" \
