@@ -1,0 +1,1 @@
+print("Hello WC 2026 dashboard")
