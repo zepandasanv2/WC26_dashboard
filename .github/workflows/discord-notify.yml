@@ -5,49 +5,51 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
+      - name: Set notification variables
+        id: set_vars
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            echo "title= Nouveau push sur le dépôt !" >> $GITHUB_OUTPUT
+            echo "description=**Auteur** : ${{ github.actor }}\n**Branche** : \`${{ github.ref_name }}\`\n**Message** : ${{ github.event.head_commit.message }}\n**Lien** : [Voir le commit](${{ github.event.head_commit.url }})" >> $GITHUB_OUTPUT
+            echo "color=5763719" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" = "issues" ]; then
+            if [ "${{ github.event.action }}" = "opened" ]; then
+              echo "title= Nouvelle issue" >> $GITHUB_OUTPUT
+              echo "color=15158332" >> $GITHUB_OUTPUT
+            else
+              echo "title= Issue fermée" >> $GITHUB_OUTPUT
+              echo "color=3066992" >> $GITHUB_OUTPUT
+            fi
+            echo "description=**Titre** : ${{ github.event.issue.title }}\n**Auteur** : ${{ github.event.issue.user.login }}\n**Lien** : [Voir l'issue](${{ github.event.issue.html_url }})" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" = "pull_request" ]; then
+            if [ "${{ github.event.action }}" = "opened" ]; then
+              echo "title= Nouvelle Pull Request" >> $GITHUB_OUTPUT
+              echo "color=15844367" >> $GITHUB_OUTPUT
+            elif [ "${{ github.event.pull_request.merged }}" = "true" ]; then
+              echo "title= PR mergée" >> $GITHUB_OUTPUT
+              echo "color=65280" >> $GITHUB_OUTPUT
+            else
+              echo "title= PR fermée" >> $GITHUB_OUTPUT
+              echo "color=15105570" >> $GITHUB_OUTPUT
+            fi
+            echo "description=**Titre** : ${{ github.event.pull_request.title }}\n**Auteur** : ${{ github.event.pull_request.user.login }}\n**Lien** : [Voir la PR](${{ github.event.pull_request.html_url }})" >> $GITHUB_OUTPUT
+          fi
+
       - name: Send Discord notification
         uses: Ilshidur/action-discord@master
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
         with:
           args: >
-            {{#if (eq github.event_name 'push')}}
-              {
-                "embeds": [
-                  {
-                    "title": "Nouveau push sur le dépôt !",
-                    "description": "**Auteur** : {{ github.actor }}\n**Branche** : `{{ github.ref_name }}`\n**Message** : {{ github.event.head_commit.message }}\n**Lien** : [Voir le commit]({{ github.event.head_commit.url }})",
-                    "color": 5763719,
-                    "footer": {
-                      "text": "Dépôt : {{ github.event.repository.name }}"
-                    }
+            {
+              "embeds": [
+                {
+                  "title": "${{ steps.set_vars.outputs.title }}",
+                  "description": "${{ steps.set_vars.outputs.description }}",
+                  "color": ${{ steps.set_vars.outputs.color }},
+                  "footer": {
+                    "text": "Dépôt : ${{ github.event.repository.name }}"
                   }
-                ]
-              }
-            {{else if (eq github.event_name 'issues')}}
-              {
-                "embeds": [
-                  {
-                    "title": "{{#if (eq github.event.action 'opened')}} Nouvelle issue{{else if (eq github.event.action 'closed')}} Issue fermée{{/if}}",
-                    "description": "**Titre** : {{ github.event.issue.title }}\n**Auteur** : {{ github.event.issue.user.login }}\n**Lien** : [Voir l'issue]({{ github.event.issue.html_url }})",
-                    "color": {{#if (eq github.event.action 'opened')}}15158332{{else}}3066992{{/if}},
-                    "footer": {
-                      "text": "Dépôt : {{ github.event.repository.name }}"
-                    }
-                  }
-                ]
-              }
-            {{else if (eq github.event_name 'pull_request')}}
-              {
-                "embeds": [
-                  {
-                    "title": "{{#if (eq github.event.action 'opened')}} Nouvelle Pull Request{{else if (eq github.event.action 'closed' && github.event.pull_request.merged)}} PR mergée{{else}} PR fermée{{/if}}",
-                    "description": "**Titre** : {{ github.event.pull_request.title }}\n**Auteur** : {{ github.event.pull_request.user.login }}\n**Lien** : [Voir la PR]({{ github.event.pull_request.html_url }})",
-                    "color": {{#if (eq github.event.action 'opened')}}15844367{{else if (eq github.event.action 'closed' && github.event.pull_request.merged)}}65280{{else}}15105570{{/if}},
-                    "footer": {
-                      "text": "Dépôt : {{ github.event.repository.name }}"
-                    }
-                  }
-                ]
-              }
-            {{/if}}
+                }
+              ]
+            }
