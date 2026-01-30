@@ -10,68 +10,9 @@ jobs:
         shell: bash
         run: |
           if [ "${{ github.event_name }}" = "push" ]; then
-            echo "title=Nouveau push sur le dépôt !" >> $GITHUB_OUTPUT
-            echo "color=5763719" >> $GITHUB_OUTPUT
-            echo "description<<EOF" >> $GITHUB_OUTPUT
-            echo "**Auteur** : ${{ github.actor }}"
-            echo "**Branche** : \`${{ github.ref_name }}\`"
-            echo "**Message** : ${{ github.event.head_commit.message }}"
-            echo "**Lien** : [Voir le commit](${{ github.event.head_commit.url }})"
-            echo "EOF" >> $GITHUB_OUTPUT
-
-          elif [ "${{ github.event_name }}" = "issues" ]; then
-            if [ "${{ github.event.action }}" = "opened" ]; then
-              echo "title=Nouvelle issue" >> $GITHUB_OUTPUT
-              echo "color=15158332" >> $GITHUB_OUTPUT
-            else
-              echo "title=Issue fermée" >> $GITHUB_OUTPUT
-              echo "color=3066992" >> $GITHUB_OUTPUT
-            fi
-            echo "description<<EOF" >> $GITHUB_OUTPUT
-            echo "**Titre** : ${{ github.event.issue.title }}"
-            echo "**Auteur** : ${{ github.event.issue.user.login }}"
-            echo "**Lien** : [Voir l'issue](${{ github.event.issue.html_url }})"
-            echo "EOF" >> $GITHUB_OUTPUT
-
-          elif [ "${{ github.event_name }}" = "pull_request" ]; then
-            if [ "${{ github.event.action }}" = "opened" ]; then
-              echo "title=Nouvelle Pull Request" >> $GITHUB_OUTPUT
-              echo "color=15844367" >> $GITHUB_OUTPUT
-            elif [ "${{ github.event.pull_request.merged }}" = "true" ]; then
-              echo "title=PR mergée" >> $GITHUB_OUTPUT
-              echo "color=65280" >> $GITHUB_OUTPUT
-            else
-              echo "title=PR fermée" >> $GITHUB_OUTPUT
-              echo "color=15105570" >> $GITHUB_OUTPUT
-            fi
-            echo "description<<EOF" >> $GITHUB_OUTPUT
-            echo "**Titre** : ${{ github.event.pull_request.title }}"
-            echo "**Auteur** : ${{ github.event.pull_request.user.login }}"
-            echo "**Lien** : [Voir la PR](${{ github.event.pull_request.html_url }})"
-            echo "EOF" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Send Discord notification (embed)
-        shell: bash
-        env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        run: |
-          payload=$(jq -n \
-            --arg title "${{ steps.set_vars.outputs.title }}" \
-            --arg description "${{ steps.set_vars.outputs.description }}" \
-            --arg repo "${{ github.event.repository.name }}" \
-            --argjson color "${{ steps.set_vars.outputs.color }}" \
-            '{
-              "embeds": [
-                {
-                  "title": $title,
-                  "description": $description,
-                  "color": $color,
-                  "footer": { "text": ("Dépôt : " + $repo) }
-                }
-              ]
-            }')
-
-          curl -H "Content-Type: application/json" \
-               -d "$payload" \
-               "$DISCORD_WEBHOOK_URL"
+            echo "title=Nouveau push sur le dépôt !" >> "$GITHUB_OUTPUT"
+            echo "color=5763719" >> "$GITHUB_OUTPUT"
+            {
+              echo "description<<EOF"
+              echo "**Auteur** : ${{ github.actor }}"
+              echo "**Branche** : \`${{ git
