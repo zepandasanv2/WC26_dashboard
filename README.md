@@ -20,7 +20,7 @@ Ce projet consiste à créer un dashboard interactif pour suivre en temps réel 
 ### Étapes
 1. Cloner le dépôt :
 ```bash
-   git clone <URL_DU_DÉPÔT>
+   git clone https://github.com/zepandasanv2/WC26_dashboard
    cd WC26_Dashboard
 ```
 2. Créer et activer un environnement virtuel :
@@ -81,9 +81,9 @@ WC26_Dashboard/
 ---
 
 ## Prochaines Étapes
-- Déployer le dashboard en ligne (ex : Render, Heroku).
-- Intégrer des données réelles via une API (ex : API Football Data).
-- Ajouter des filtres interactifs (ex : sélectionner une équipe).
+- [ ] Déployer le dashboard en ligne (ex : Render, Heroku).
+- [ ] Intégrer des données réelles via une API (ex : API Football Data).
+- [ ] Ajouter des filtres interactifs (ex : sélectionner une équipe).
 
 ---
 
