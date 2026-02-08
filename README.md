@@ -82,10 +82,8 @@ WC26_Dashboard/
 ```
 ---
 
-## Prochaines Étapes
-- [ ] Déployer le dashboard en ligne (ex : Render, Heroku).
-- [ ] Intégrer des données réelles via une API (ex : API Football Data).
-- [ ] Ajouter des filtres interactifs (ex : sélectionner une équipe).
+## TO-DO list
+-
 
 ---
 
