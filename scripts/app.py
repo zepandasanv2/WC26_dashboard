@@ -4,8 +4,8 @@ import pandas as pd
 def load_data():
     """Charge les données des matchs et des joueurs depuis les fichiers CSV."""
     project_root = Path(__file__).parent.parent
-    matchs_path = project_root / "data" / "matchs.csv"
-    joueurs_path = project_root / "data" / "joueurs.csv"
+    matchs_path = project_root / "data" / "raw" / "matchs.csv"
+    joueurs_path = project_root / "data" / "raw" / "joueurs.csv"
 
     matchs = pd.read_csv(matchs_path)
     joueurs = pd.read_csv(joueurs_path)
