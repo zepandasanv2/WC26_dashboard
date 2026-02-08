@@ -61,22 +61,24 @@ Ouvre http://127.0.0.1:8050 dans ton navigateur.
 ```
 WC26_Dashboard/
 │
-├── data/                  # Données CSV (matchs, joueurs, stades)
-│   ├── matchs.csv
-│   └── joueurs.csv
+├── data/
+│   ├── raw/          
+│   └── processed/    
 │
-├── scripts/               # Scripts Python
-│   ├── app.py             # Chargement des données
-│   └── dashboard.py       # Dashboard interactif
+├── scripts/
+│   ├── scrape/       
+│   ├── etl/          
+│   ├── dashboard/    
+|   └── app.py
 │
-├── .ipynb_checkpoints
-|   └── exploration_cdm2026-checkpoint.ipynb
+├── notebooks/
 |
-├── .github/workflows/     # Workflows GitHub Actions (inclut le YML pour Discord)
+├── .github/workflows/     
 │
-├── requirements.txt       # Dépendances Python
-├── README.md               # Ce fichier
-└── .gitignore
+├── requirements.txt       
+├── README.md               
+├── .gitignore
+└── LICENSE
 ```
 ---
 
@@ -87,7 +89,7 @@ WC26_Dashboard/
 
 ---
 
-## Contribuerdd
+## Contribuerer
 Les contributions sont les bienvenues ! Ouvre une issue ou une pull request pour proposer des améliorations.
 
 ---
