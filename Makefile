@@ -1,6 +1,6 @@
 DATA_DIR=data/raw
 WC_URL=https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json
-WC_FILE=$(DATA_DIR)/base.json
+WC_FILE=$(DATA_DIR)/baseLvl1.json
 
 .PHONY: extract clean
 
