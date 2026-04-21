@@ -7,8 +7,8 @@ WC_FILE=$(DATA_DIR)/worldcup_2026.json
 extract:
 	mkdir -p $(DATA_DIR)
 	curl -f -o $(WC_FILE) $(WC_URL)
-	@echo "✅ Données téléchargées dans $(WC_FILE)"
+	@echo "[INFO] Extraction completed: $(WC_FILE)"
 
 clean:
 	rm -rf data/raw/*
-	@echo "🧹 Données supprimées"
+	@echo "[INFO] Cleanup done"
