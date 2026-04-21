@@ -5,10 +5,24 @@ WC_FILE=$(DATA_DIR)/worldcup_2026.json
 .PHONY: extract clean
 
 extract:
-	mkdir -p $(DATA_DIR)
-	curl -f -o $(WC_FILE) $(WC_URL)
-	@echo "[INFO] Extraction completed: $(WC_FILE)"
+	@echo "[INFO] Starting data extraction..."
+	@mkdir -p $(DATA_DIR)
+
+	@echo "[INFO] Downloading data..."
+	@curl -f -s -S -o $(WC_FILE) $(WC_URL) || (echo "[ERROR] Download failed" && exit 1)
+
+	@if [ ! -s $(WC_FILE) ]; then \
+		echo "[ERROR] File is empty or not created"; \
+		exit 1; \
+	fi
+
+	@echo "[INFO] Validating JSON..."
+	@python -c "import json,sys; json.load(open('$(WC_FILE)'))" \
+		|| (echo "[ERROR] Invalid JSON file" && exit 1)
+
+	@echo "[SUCCESS] JSON is valid: $(WC_FILE)"
 
 clean:
-	rm -rf data/raw/*
-	@echo "[INFO] Cleanup done"
+	@echo "[INFO] Cleaning raw data..."
+	@rm -rf $(DATA_DIR)/*
+	@echo "[CLEAN] Raw data removed"
