@@ -33,12 +33,10 @@ Ce projet consiste à créer un dashboard interactif pour suivre en temps réel 
 ```bash
    pip install -r requirements.txt
 ```
+TO CLEAN
 ---
 ## Lancer le Dashboard
-```bash
-python scripts/dashboard.py
-```
-Ouvre http://127.0.0.1:8050 dans ton navigateur.
+TO-DO
 
 ---
 
@@ -59,28 +57,10 @@ Ouvre http://127.0.0.1:8050 dans ton navigateur.
 
 ## Structure du Projet
 ```
-WC26_Dashboard/
-│
-├── data/
-│   ├── raw/          
-│   └── processed/    
-│
-├── scripts/
-│   ├── scrape/       
-│   ├── etl/          
-│   ├── dashboard/    
-|   └── app.py
-│
-├── notebooks/
-|
-├── .github/workflows/     
-│
-├── requirements.txt       
-├── README.md               
-├── .gitignore
-└── LICENSE
+
 ```
 ---
+TO-DO
 
 ## TO-DO list
 -
