@@ -2,11 +2,70 @@
 
 Ce projet consiste à créer un dashboard interactif pour suivre en temps réel les performances, statistiques et données clés de la Coupe du Monde 2026, qui se déroulera aux États-Unis, Canada et Mexique du 11 juin au 19 juillet 2026. Cette édition sera historique avec 48 équipes (contre 32 auparavant) et un format inédit.
 
-# Installer les bibliothèques Python 
+---
 
-```bash
-pip install -r requirements.txt
+## Fonctionnalités
+- Visualisation des statistiques : Top buteurs, buts par équipe, cartes jaunes.
+- Données structurées : Matchs, joueurs, stades.
+- Notifications Discord : Alertes pour les actions importantes (ex : commits, déploiements).
+
+---
+
+## Installation
+
+### Prérequis
+- Python 3.11+
+- Un environnement virtuel (recommandé)
+
+
+### Setup
+make extract
+---
+## Lancer le Dashboard
+TO-DO
+
+---
+
+## Notifications Discord
+
+### Configuration
+1. Créer un webhook Discord :
+   - Va dans les paramètres de ton serveur Discord > Intégrations > Webhooks > Nouveau Webhook.
+   - Copie l’URL du webhook.
+
+2. Ajouter l’URL du webhook :
+   - Dans ton dépôt GitHub, va dans Settings > Secrets > Actions.
+   - Ajoute un nouveau secret nommé DISCORD_WEBHOOK_URL avec l’URL copiée.
+
+3. Le workflow YML (déjà configuré) utilisera ce secret pour envoyer des notifications automatiques lors des actions GitHub (ex : push, pull request).
+
+---
+
+## Structure du Projet
 ```
+project/
+│
+├── data/
+│   └── raw/
+│
+├── notebooks/
+│   └── ETL.ipynb
+│
+├── Makefile
+└── README.md
+```
+---
+TO-DO
 
-# Notifications discord 
-to do 
+## TO-DO list
+-
+
+---
+
+## Contribuerer
+Les contributions sont les bienvenues ! Ouvre une issue ou une pull request pour proposer des améliorations.
+
+---
+
+## Licence
+Ce projet est sous licence MIT.
