@@ -17,23 +17,9 @@ Ce projet consiste à créer un dashboard interactif pour suivre en temps réel 
 - Python 3.11+
 - Un environnement virtuel (recommandé)
 
-### Étapes
-1. Cloner le dépôt :
-```bash
-   git clone https://github.com/zepandasanv2/WC26_dashboard
-   cd WC26_Dashboard
-```
-2. Créer et activer un environnement virtuel :
-```bash
-   python -m venv venv
-   source venv/bin/activate  # Linux
-```
 
-3. Installer les dépendances :
-```bash
-   pip install -r requirements.txt
-```
-TO CLEAN
+### Setup
+make extract
 ---
 ## Lancer le Dashboard
 TO-DO
