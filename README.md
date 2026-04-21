@@ -57,7 +57,16 @@ TO-DO
 
 ## Structure du Projet
 ```
-
+project/
+│
+├── data/
+│   └── raw/
+│
+├── notebooks/
+│   └── ETL.ipynb
+│
+├── Makefile
+└── README.md
 ```
 ---
 TO-DO
