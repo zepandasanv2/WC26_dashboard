@@ -57,8 +57,10 @@ project/
 ```
 ---
 
-## TO-DO list
--
+## Step 
+[ ] Sprint 1: JSON to CSV to Database
+[ ] Sprint 2: Database to csv
+[ ] Sprint 3: csv to BI
 
 ---
 
