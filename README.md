@@ -14,12 +14,13 @@ Ce projet consiste à créer un dashboard interactif pour suivre en temps réel 
 ## Installation
 
 ### Prérequis
-- Python 3.11+
-- Un environnement virtuel (recommandé)
+TO-DO
 
 
 ### Setup
+```bash
 make extract
+```
 ---
 ## Lancer le Dashboard
 TO-DO
@@ -55,7 +56,6 @@ project/
 └── README.md
 ```
 ---
-TO-DO
 
 ## TO-DO list
 -
