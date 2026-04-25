@@ -33,10 +33,11 @@ extract:
 
 	@echo "[SUCCESS] JSON is valid: $(WC_FILE)"
 
+
 transform:
 	@echo "[INFO] Transforming data..."
-	@python scripts/transform.py
-	@echo "[SUCCESS] Data transformed"
+	@python scripts/transform.py || (echo "[ERROR] Transformation failed" && exit 1)
+	@echo "[SUCCESS] Transformation completed"
 
 clean:
 	@echo "[INFO] Cleaning raw data..."
