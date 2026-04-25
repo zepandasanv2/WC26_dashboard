@@ -22,3 +22,20 @@ os.makedirs(PROCESSED_DIR, exist_ok=True)
 #read json
 with open(input_file, "r", encoding="utf-8") as f:
     source = json.load(f)
+
+# retrieve matches
+matches = source.get("matches", [])
+
+# Data transformation
+rows = []
+for match in matches:
+    row = {
+        "date": match.get("date"),
+        "time": match.get("time"),
+        "team1": match.get("team1"),
+        "team2": match.get("team2"),
+        "group": match.get("group"),
+        "ground": match.get("ground"),
+        "round": match.get("round")
+        
+    }
