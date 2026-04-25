@@ -9,7 +9,7 @@ PROCESSED_DIR = "data/processed"
 
 # Retrieve today date  
 today = datetime.now().strftime("%Y%m%d")
-
+ingestion_date = datetime.now().strftime("%Y-%m-%d")
 
 input_file = os.path.join(RAW_DIR, f"baseWC_{today}.json")
 
@@ -36,7 +36,8 @@ for match in matches:
         "team2": match.get("team2"),
         "group": match.get("group"),
         "ground": match.get("ground"),
-        "round": match.get("round")
+        "round": match.get("round"),
+        "ingestion_date": ingestion_date
         
     }
     rows.append(row)
