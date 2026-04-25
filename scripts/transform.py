@@ -39,3 +39,11 @@ for match in matches:
         "round": match.get("round")
         
     }
+    rows.append(row)
+
+# df creation
+df = pd.DataFrame(rows)
+
+# to csv
+df.to_csv(output_file, index=False, encoding="utf-8")
+
