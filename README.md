@@ -8,9 +8,6 @@ Ce projet consiste à créer un dashboard interactif pour suivre en temps réel 
 ---
 
 ## Fonctionnalités
-- Visualisation des statistiques : Top buteurs, buts par équipe, cartes jaunes.
-- Données structurées : Matchs, joueurs, stades.
-- Notifications Discord : Alertes pour les actions importantes (ex : commits, déploiements).
 
 ---
 
@@ -46,24 +43,13 @@ TO-DO
 ---
 
 ## Structure du Projet
-```
-project/
-│
-├── data/
-│   └── raw/
-│
-├── notebooks/
-│   └── ETL.ipynb
-│
-├── Makefile
-└── README.md
-```
+
 ---
 
 ## Step 
-[ ] Sprint 1: JSON to CSV to Database
-[ ] Sprint 2: Database to csv
-[ ] Sprint 3: csv to BI
+- [X] Sprint 1: JSON to CSV to Database
+- [X] Sprint 2: Database to view
+- [ ] Sprint 3 : view to web
 
 ---
 
