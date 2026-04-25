@@ -47,3 +47,5 @@ df = pd.DataFrame(rows)
 # to csv
 df.to_csv(output_file, index=False, encoding="utf-8")
 
+print(f"[SUCCESS] Transformed data saved to {output_file}")
+
