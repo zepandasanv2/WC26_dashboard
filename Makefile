@@ -5,7 +5,7 @@ TODAY=$(shell date +%Y%m%d)
 WC_URL=https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json
 WC_FILE=$(DATA_DIR)/baseWC_$(TODAY).json
 
-.PHONY: extract clean
+.PHONY: extract clean transform
 
 extract:
 	@echo "[INFO] Starting data extraction..."
@@ -32,6 +32,11 @@ extract:
 		|| (echo "[ERROR] Invalid JSON file" && exit 1)
 
 	@echo "[SUCCESS] JSON is valid: $(WC_FILE)"
+
+transform:
+	@echo "[INFO] Transforming data..."
+	@python scripts/transform.py
+	@echo "[SUCCESS] Data transformed"
 
 clean:
 	@echo "[INFO] Cleaning raw data..."
