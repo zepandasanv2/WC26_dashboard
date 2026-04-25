@@ -38,6 +38,6 @@ jobs:
 
           git add data/
 
-          git commit -m "chore(data): daily update of raw and processed data" || echo "No changes"
+          git commit -m "chore(data): automated daily update of raw and processed data" || echo "No changes"
 
           git push
