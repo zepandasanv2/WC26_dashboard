@@ -18,3 +18,7 @@ output_file = os.path.join(PROCESSED_DIR, "matches.csv")
 
 # create folder if not exist
 os.makedirs(PROCESSED_DIR, exist_ok=True)
+
+#read json
+with open(input_file, "r", encoding="utf-8") as f:
+    source = json.load(f)
