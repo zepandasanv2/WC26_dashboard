@@ -5,7 +5,7 @@ TODAY=$(shell date +%Y%m%d)
 WC_URL=https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026/worldcup.json
 WC_FILE=$(DATA_DIR)/baseWC_$(TODAY).json
 
-.PHONY: extract clean pipeline transform
+.PHONY: extract clean pipeline transform clean-all
 
 extract:
 	@echo "[INFO] Starting data extraction..."
@@ -13,9 +13,12 @@ extract:
 	@mkdir -p $(ARCHIVE_DIR)
 
 	@echo "[INFO] Archiving old files..."
-	@for f in $(DATA_DIR)/baseWC_*.json; do \
-		if [ -f "$$f" ] && [[ "$$f" != *$(TODAY)* ]]; then \
-			mv "$$f" $(ARCHIVE_DIR)/; \
+	@for f in $(DATA_DIR)/baseLvl1_*.json; do \
+		if [ -f "$$f" ]; then \
+			case "$$f" in \
+				*$(TODAY)*) ;; \
+				*) mv "$$f" $(ARCHIVE_DIR)/ ;; \
+			esac \
 		fi; \
 	done
 
@@ -43,6 +46,13 @@ pipeline: extract transform
 	@echo "[DONE] Full pipeline executed"
 
 clean:
-	@echo "[INFO] Cleaning raw data..."
-	@rm -rf $(DATA_DIR)/*
-	@echo "[CLEAN] Raw data removed"
+	@echo "[INFO] Cleaning processed data..."
+	@rm -rf data/processed/*
+	@echo "[CLEAN] Processed data removed"
+
+clean-all:
+	@echo "[WARNING] Removing ALL data (raw + processed)..."
+	@rm -rf data/raw/*
+	@rm -rf data/processed/*
+	@rm -rf data/archive/*
+	@echo "[CLEAN] All data removed"

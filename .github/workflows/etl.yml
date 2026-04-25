@@ -1,0 +1,45 @@
+name: Daily ETL Pipeline
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  
+  workflow_dispatch:
+  push:
+    branches:
+      - develop
+jobs:
+  etl:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write  
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Run extract
+        run: make extract
+
+      - name: Run transform
+        run: make transform
+
+      - name: Commit data updates
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+
+          git add data/
+
+          git commit -m "chore(data): automated daily update of raw and processed data" || echo "No changes"
+
+          git push
