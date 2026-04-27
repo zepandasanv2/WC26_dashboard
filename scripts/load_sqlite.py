@@ -19,3 +19,5 @@ df_team2 = df.rename(columns={
     "team2": "team",
     "team1": "opponent"
 })
+
+df_final = pd.concat([df_team1, df_team2], ignore_index=True)
