@@ -21,3 +21,8 @@ df_team2 = df.rename(columns={
 })
 
 df_final = pd.concat([df_team1, df_team2], ignore_index=True)
+
+df_final.to_sql("team_matches", conn, if_exists="replace", index=False)
+print("[SUCCESS] SQLite DB created with team_matches")
+
+conn.close()
