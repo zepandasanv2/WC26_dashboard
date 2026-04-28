@@ -27,7 +27,16 @@ document.getElementById("teamSelect").addEventListener("change", function () {
 
             data.forEach(match => {
                 const li = document.createElement("li");
-                li.textContent = `${match.date} - ${match.opponent} (${match.ground})`;
+                li.innerHTML = `
+                    <div class="match-card">
+                        <div class="match-opponent">${match.opponent}</div>
+                        <div class="match-info">
+                        <span>Date: ${match.date}</span>
+                        <span>Time: ${match.time}</span>
+                        <span>Stadium: ${match.ground}</span>
+                        </div>
+                    </div>
+`;
                 list.appendChild(li);
             });
         });
