@@ -13,7 +13,7 @@ extract:
 	@mkdir -p $(ARCHIVE_DIR)
 
 	@echo "[INFO] Archiving old files..."
-	@for f in $(DATA_DIR)/baseLvl1_*.json; do \
+	@for f in $(DATA_DIR)/baseWC_*.json; do \
 		if [ -f "$$f" ]; then \
 			case "$$f" in \
 				*$(TODAY)*) ;; \
